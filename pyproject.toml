@@ -1,0 +1,19 @@
+[project]
+name = "hr-gatepass-agent"
+version = "1.0.0"
+description = "Human-reviewed HR gate-pass document extraction workflow"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "python-multipart>=0.0.9",
+    "pymupdf>=1.24.0",
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.8.0",
+    "langchain-google-genai>=2.0.0",
+    "langgraph>=0.2.0",
+    "langgraph-checkpoint-sqlite>=2.0.0",
+]
+
+[tool.uv]
+package = false
