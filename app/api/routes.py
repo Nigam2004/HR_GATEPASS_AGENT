@@ -61,7 +61,7 @@ async def validate_documents(files:list[UploadFile] = File(...)):
             }
             records.append(record)
             documents.append(document)
-            print("loop ended ",datetime.now())
+        print("loop ended ",datetime.now())
 
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -93,8 +93,8 @@ async def validate_documents(files:list[UploadFile] = File(...)):
     result = agent.invoke(initial_state, config=_thread_config(thread_id))
     print("comparing the details",datetime.now())
     return {"thread_id": thread_id, **_format_result(result)}
+print("resul",datetime.now())
 
-print("succesfully exicuted the doc uploaded")
 
 ##resolve mismatches-router
 @router.post("/resolve-mismatches/{thread_id}")
