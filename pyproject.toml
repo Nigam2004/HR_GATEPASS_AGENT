@@ -13,6 +13,7 @@ dependencies = [
     "langchain-google-genai>=2.0.0",
     "langgraph>=0.2.0",
     "langgraph-checkpoint-sqlite>=2.0.0",
+    "playwright>=1.64.1",
 ]
 
 [tool.uv]
