@@ -14,6 +14,6 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
-EXPECTED_PDF_COUNT = 3
+EXPECTED_PDF_COUNT = 4
 
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)

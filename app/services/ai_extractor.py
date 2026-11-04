@@ -8,11 +8,13 @@ from app.schemas.worker import WorkerDetails
 
 @lru_cache(maxsize=1)
 def _get_structured_extractor():
+    print("api key called")
     if not GOOGLE_API_KEY or GOOGLE_API_KEY == "your_google_api_key_here":
+        print("false")
         raise RuntimeError(
             "Set a valid GOOGLE_API_KEY in the project .env file before uploading PDFs."
         )
-
+    print("llm called")
     llm = ChatGoogleGenerativeAI(
         model=GEMINI_MODEL,
         api_key=GOOGLE_API_KEY,
@@ -22,6 +24,7 @@ def _get_structured_extractor():
 
 
 def extract_worker_details(filename: str, document_text: str) -> dict:
+    print("ai extraction statrted")
     prompt = f"""
 Extract the worker details from this document.
 
@@ -32,7 +35,7 @@ Instructions:
 - Do not guess missing values or correct spellings.
 - Return null for missing information.
 - For identity numbers, extract only the last four digits if the number is present.
--keep all the date in DD-MM-YYYY
+- keep all the date in DD-MM-YYYY
 
 Document text:
 {document_text}
