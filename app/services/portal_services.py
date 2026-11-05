@@ -70,6 +70,8 @@ async def open_mantra_portal():
                     )
             else:
                     print("CAPTCHA image not found")
+            ##wait for 10 second
+            await page.wait_for_timeout(10000)
 
             # Submit login form
             submit_button = page.locator(
@@ -77,6 +79,7 @@ async def open_mantra_portal():
             ).first
 
             if await submit_button.count() > 0:
+                print("submit botton detected")
                 await submit_button.click()
             else:
                 print("Submit button not identified.")
@@ -85,6 +88,17 @@ async def open_mantra_portal():
 
             # Allow the portal to respond
             await page.wait_for_timeout(4000)
+            print("wait 4sec")
+            await page.goto(
+                'https://mwoc.jindalsteel.com/Master/EmployeeKiosk',
+                wait_until="domcontentloaded",
+                timeout=60000
+                        )
+            await page.get_by_role("button", name="   Add").click()
+            await page.locator("#AadharCard").fill("388780287998")
+            await page.locator("#FirstName").fill("nigam")
+            await page.locator("#MiddleName").fill("")
+            await page.locator("#LastName").fill("bisoyi")
 
             print("Current URL:", page.url)
             print("Page title:", await page.title())
