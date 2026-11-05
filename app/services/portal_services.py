@@ -35,71 +35,35 @@ async def open_mantra_portal():
             print("Mantra portal opened")
             print("Page title:", await page.title())
 
-            # Identify login fields
-            username_field = page.locator(
-                'input[type="email"], input[type="text"]'
-            ).first
-
-            password_field = page.locator(
-                'input[type="password"]'
-            ).first
-           
-            # Check login fields
-            if await username_field.count() == 0:
-                print("Username field not found")
-                await page.pause()
-                return
-
-            if await password_field.count() == 0:
-                print("Password field not found")
-                await page.pause()
-                return
-
-            # Fill login details
-            await username_field.fill(MANTRA_USERNAME)
-            await password_field.fill(MANTRA_PASSWORD)
-
-            print("Login details entered")
-
-            #check captcha filed
+            await page.get_by_role("textbox", name="UserName").dblclick()
+            await page.get_by_role("textbox", name="UserName").fill(MANTRA_USERNAME)
+            await page.get_by_role("textbox", name="Password").click()
+            await page.get_by_role("textbox", name="Password").fill(MANTRA_PASSWORD)
             captcha_image = page.locator("#imgcaptcha")
             if await captcha_image.count() > 0:
-                    print("CAPTCHA image detected")
-                    await captcha_image.screenshot(
-                    path="uploads/captcha.png"
-                    )
+                print("CAPTCHA image detected")
+                await captcha_image.screenshot(
+                path="uploads/captcha.png")
             else:
-                    print("CAPTCHA image not found")
-            ##wait for 10 second
+                print("CAPTCHA image not found")
+            await page.get_by_role("textbox", name="Captcha").click()
             await page.wait_for_timeout(10000)
-
-            # Submit login form
-            submit_button = page.locator(
-                'button[type="submit"], input[type="submit"]'
-            ).first
-
-            if await submit_button.count() > 0:
-                print("submit botton detected")
-                await submit_button.click()
-            else:
-                print("Submit button not identified.")
-                await page.pause()
-                return
-
+            await page.get_by_role("button", name="Log in").click()
             # Allow the portal to respond
             await page.wait_for_timeout(4000)
-            print("wait 4sec")
-            await page.goto(
-                'https://mwoc.jindalsteel.com/Master/EmployeeKiosk',
-                wait_until="domcontentloaded",
-                timeout=60000
-                        )
-            await page.get_by_role("button", name="   Add").click()
+            # await page.get_by_role("link", name="Enrollment ").click()
+            # await page.locator("#div_LeftMenu").get_by_role("https://mwoc.jindalsteel.com/Master/EmployeeKiosk", name="Add Worker").click()
+            # print("wait 4sec")
+            # await page.goto(
+            #     'https://mwoc.jindalsteel.com/Master/EmployeeKiosk',
+            #     wait_until="domcontentloaded",
+            #     timeout=60000
+            #             )
+            await page.get_by_role("button", name=" Add").click()
             await page.locator("#AadharCard").fill("388780287998")
-            await page.locator("#FirstName").fill("nigam")
-            await page.locator("#MiddleName").fill("")
-            await page.locator("#LastName").fill("bisoyi")
-
+            await page.locator("#FirstName").press_sequentially("nigam",delay=500)
+            await page.locator("#MiddleName").press_sequentially("")
+            await page.locator("#LastName").press_sequentially("bisoyi",delay=500)
             print("Current URL:", page.url)
             print("Page title:", await page.title())
 
