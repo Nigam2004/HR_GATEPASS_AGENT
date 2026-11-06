@@ -554,6 +554,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "langchain-google-genai" },
+    { name = "langchain-sarvam" },
     { name = "langgraph" },
     { name = "langgraph-checkpoint-sqlite" },
     { name = "playwright" },
@@ -568,6 +569,7 @@ dependencies = [
 requires-dist = [
     { name = "fastapi", specifier = ">=0.115.0" },
     { name = "langchain-google-genai", specifier = ">=2.0.0" },
+    { name = "langchain-sarvam", specifier = ">=0.1.2" },
     { name = "langgraph", specifier = ">=0.2.0" },
     { name = "langgraph-checkpoint-sqlite", specifier = ">=2.0.0" },
     { name = "playwright", specifier = ">=1.64.1" },
@@ -821,6 +823,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/cb/8b/d908d082c3cf5368ddd1816ed114de79c873f979ba7f98b95fab0e841643/langchain_protocol-0.0.20.tar.gz", hash = "sha256:0f5bd002474265648e91161771a9e0438fe9480bd55a416e51af0f60070637ec", size = 6280, upload-time = "2026-10-20T11:13:50.84Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/02/4b/f1c99a0b27c5ff8b4b131c0d6e62012c17cc424089efe213767db927afd2/langchain_protocol-0.0.20-py3-none-any.whl", hash = "sha256:3c935e5e46b0f6f9cb52f45ba7cfa53d1b9fa80c82c4a277d47f03e07f7385b1", size = 7347, upload-time = "2026-10-20T11:13:49.566Z" },
+]
+
+[[package]]
+name = "langchain-sarvam"
+version = "0.1.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "langchain-core" },
+    { name = "pydantic" },
+    { name = "sarvamai" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d4/b4/912a88315f34b23e776d286380ec19e3428a19e24fccd94b97fda3a126f3/langchain_sarvam-0.1.2.tar.gz", hash = "sha256:2a0dffb1ec152a27d2d8bc332169327ad16185212089c9b81d9aadf092c64207", size = 14500, upload-time = "2026-07-22T11:47:24.028Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5f/d5/25b21fdab9ba9151d91d2197f6f2d1fbc4fc8c142f9903d000e735fe4afd/langchain_sarvam-0.1.2-py3-none-any.whl", hash = "sha256:175836c4aa22013acf60c9e018cdef7a0e8f50825257a30470424b5928c90e22", size = 11162, upload-time = "2026-07-22T11:47:22.789Z" },
 ]
 
 [[package]]
@@ -1692,6 +1708,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/f3/61/d7545dafb7ac2230c70d38d31cbfe4cc64f7144dc41f6e4e4b78ecd9f5bb/requests-toolbelt-1.0.0.tar.gz", hash = "sha256:7681a0a3d047012b5bdc0ee37d7f8f07ebe76ab08caeccfc3921ce23c88d5bc6", size = 206888, upload-time = "2023-05-01T04:11:33.229Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3f/51/d4db610ef29373b879047326cbf6fa98b6c1969d6f6dc423279de2b1be2c/requests_toolbelt-1.0.0-py2.py3-none-any.whl", hash = "sha256:cccfdd665f0a24fcf4726e690f65639d272bb0637b9b92dfd91a5568ccf6bd06", size = 54481, upload-time = "2023-05-01T04:11:28.427Z" },
+]
+
+[[package]]
+name = "sarvamai"
+version = "0.1.43"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "pydantic-core" },
+    { name = "typing-extensions" },
+    { name = "websockets" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f3/95/0c6162a587e83e743bf565003069c865bf228416da48e05dfcf9fd33a337/sarvamai-0.1.43.tar.gz", hash = "sha256:782353b3c2944b8a2b1d25a9eb7fa7a73f371b28036dcd45ce5d60c6e86303aa", size = 277074, upload-time = "2026-11-03T10:09:04.974Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d4/1e/d1f9489ca41f4e3914892f3080355ad4dd7f885913e0a48998c219c115a9/sarvamai-0.1.43-py3-none-any.whl", hash = "sha256:0b177f2d2dfd9093038b8ddd96fe8db2909c81af484a9f5d44e723db203a8d66", size = 578763, upload-time = "2026-11-03T10:09:03.206Z" },
 ]
 
 [[package]]

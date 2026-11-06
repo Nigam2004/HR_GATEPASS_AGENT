@@ -1,8 +1,9 @@
 from functools import lru_cache
 
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_sarvam import ChatSarvam
 
-from app.core.config import GOOGLE_API_KEY, GEMINI_MODEL
+from app.core.config import GOOGLE_API_KEY, GEMINI_MODEL,SARVAM_API_KEY,SARVAM_MODEL
 from app.schemas.worker import WorkerDetails
 
 
@@ -15,11 +16,16 @@ def _get_structured_extractor():
             "Set a valid GOOGLE_API_KEY in the project .env file before uploading PDFs."
         )
     print("llm called")
-    llm = ChatGoogleGenerativeAI(
-        model=GEMINI_MODEL,
-        api_key=GOOGLE_API_KEY,
-        temperature=0,
-    )
+    # llm = ChatGoogleGenerativeAI(
+    #     model=GEMINI_MODEL,
+    #     api_key=GOOGLE_API_KEY,
+    #     temperature=0,
+    # )
+    llm = ChatSarvam(
+            model="sarvam-vision",
+            api_key=SARVAM_API_KEY,
+            temperature=0,
+        )
     return llm.with_structured_output(WorkerDetails)
 
 
