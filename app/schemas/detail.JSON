@@ -1,0 +1,262 @@
+ {
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "The full name of the insured person.",
+      "aliases": [
+        "Name of IP"
+      ],
+      "placement": {
+        "section": "PERSONAL DETAILS",
+        "look_for": "the label 'Name of IP'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+      }
+    },
+    "insurance_number": {
+      "type": "string",
+      "description": "The unique insurance identification number assigned to the insured person.",
+      "aliases": [
+        "Insurance No."
+      ],
+      "placement": {
+        "section": "PERSONAL DETAILS",
+        "look_for": "the label 'Insurance No.'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+      }
+    },
+    "date_of_birth": {
+      "type": "string",
+      "description": "The date of birth of the insured person.",
+      "aliases": [
+        "Date of Birth"
+      ],
+      "placement": {
+        "section": "PERSONAL DETAILS",
+        "look_for": "the label 'Date of Birth'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+      }
+    },
+    "gender": {
+      "type": "string",
+      "description": "The gender of the insured person.",
+      "aliases": [
+        "Gender"
+      ],
+      "placement": {
+        "section": "PERSONAL DETAILS",
+        "look_for": "the label 'Gender'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+      },
+      "enum": [
+        "Male",
+        "Female",
+        "Other"
+      ]
+    },
+    "mobile_number": {
+      "type": "string",
+      "description": "The mobile phone number of the insured person.",
+      "aliases": [
+        "Mobile Number"
+      ],
+      "placement": {
+        "section": "PERSONAL DETAILS",
+        "look_for": "the label 'Mobile Number'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+      }
+    },
+    "marital_status": {
+      "type": "string",
+      "description": "The marital status of the insured person.",
+      "aliases": [
+        "Marital Status"
+      ],
+      "placement": {
+        "section": "REGISTRATION DETAILS",
+        "look_for": "the label 'Marital Status'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the REGISTRATION DETAILS section on the first page."
+      }
+    },
+    "father_husband_name": {
+      "type": "string",
+      "description": "The name of the insured person's father or husband.",
+      "aliases": [
+        "Name of Father / Husband"
+      ],
+      "placement": {
+        "section": "REGISTRATION DETAILS",
+        "look_for": "the label 'Name of Father / Husband'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the REGISTRATION DETAILS section on the first page."
+      }
+    },
+    "present_address": {
+      "type": "string",
+      "description": "The current residential address of the insured person.",
+      "aliases": [
+        "Present Address"
+      ],
+      "placement": {
+        "section": "REGISTRATION DETAILS",
+        "look_for": "the label 'Present Address'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the REGISTRATION DETAILS section on the first page."
+      }
+    },
+    "permanent_address": {
+      "type": "string",
+      "description": "The permanent residential address of the insured person.",
+      "aliases": [
+        "Permanent Address"
+      ],
+      "placement": {
+        "section": "REGISTRATION DETAILS",
+        "look_for": "the label 'Permanent Address'",
+        "placement_tier": "standalone",
+        "placement_description": "Located in the REGISTRATION DETAILS section on the first page."
+      }
+    },
+    "personal_details": {
+      "type": "object",
+      "properties": {
+        "date_of_birth": {
+          "type": "string",
+          "description": "The date of birth of the insured person.",
+          "aliases": [
+            "Date of Birth"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'Date of Birth'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "uhid": {
+          "type": "string",
+          "description": "The Unique Health Identification number.",
+          "aliases": [
+            "UHID"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'UHID'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "uan": {
+          "type": "string",
+          "description": "The Universal Account Number.",
+          "aliases": [
+            "UAN"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'UAN'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "abha_number": {
+          "type": "string",
+          "description": "The Ayushman Bharat Health Account number.",
+          "aliases": [
+            "ABHA Number"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'ABHA Number'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "email_id": {
+          "type": "string",
+          "description": "The email address of the insured person.",
+          "aliases": [
+            "Email ID"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'Email ID'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "abha_address": {
+          "type": "string",
+          "description": "The ABHA digital address.",
+          "aliases": [
+            "ABHA Address"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'ABHA Address'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "registration_date": {
+          "type": "string",
+          "description": "The date when the person was registered with the scheme.",
+          "aliases": [
+            "Registration Date"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'Registration Date'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "aadhaar": {
+          "type": "string",
+          "description": "The Aadhaar identification number.",
+          "aliases": [
+            "Aadhaar"
+          ],
+          "placement": {
+            "section": "PERSONAL DETAILS",
+            "look_for": "the label 'Aadhaar'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the PERSONAL DETAILS section on the first page."
+          }
+        },
+        "father_husband_name": {
+          "type": "string",
+          "description": "The name of the father or husband of the insured person.",
+          "aliases": [
+            "Name of Father / Husband"
+          ],
+          "placement": {
+            "section": "REGISTRATION DETAILS",
+            "look_for": "the label 'Name of Father / Husband'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the REGISTRATION DETAILS section on the first page."
+          }
+        },
+        "type_of_disability": {
+          "type": "string",
+          "description": "The category or type of disability, if any.",
+          "aliases": [
+            "Type Of Disability"
+          ],
+          "placement": {
+            "section": "REGISTRATION DETAILS",
+            "look_for": "the label 'Type Of Disability'",
+            "placement_tier": "standalone",
+            "placement_description": "Located in the REGISTRATION DETAILS section on the first page."
+          }
+        }
+      }
+    }
+  }
+}
