@@ -10,3 +10,4 @@ class AgentState(TypedDict):
     profile_confirmed: bool
     workflow_status: str
     portal_status: str
+    comparisons:list[dict]

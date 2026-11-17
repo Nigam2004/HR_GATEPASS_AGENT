@@ -52,8 +52,8 @@ async def validate_documents(files:list[UploadFile] = File(...)):
     try:
         for upload in files:
             document = await save_pdf_and_extract_name(upload, thread_id)
-            print("pdf extracted",datetime.now())
-            details = await extract_worker_document(document["path"],document["document_type"])
+            print("pdf saved",datetime.now())
+            details =await extract_worker_document(document["path"],document["document_type"])
             print("ai doc extracted",datetime.now())
 
             record = {
@@ -63,6 +63,7 @@ async def validate_documents(files:list[UploadFile] = File(...)):
             records.append(record)
             documents.append(document)
         print("loop ended ",datetime.now())
+        print("ALL DOCUMENTS EXTRACTED")
 
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -89,15 +90,14 @@ async def validate_documents(files:list[UploadFile] = File(...)):
         "profile_confirmed": False,
         "workflow_status": "started",
         "portal_status": "not_started",
+        "comparisons":[]
     }
 
     result = agent.invoke(initial_state, config=_thread_config(thread_id))
+    # print("rse",result)
     print("comparing the details",datetime.now())
     # {"thread_id": thread_id, **_format_result(result)}
-    return {
-    "records": records,
-    "documents": documents
-}
+    return {"thread_id": thread_id, **_format_result(result),**result}
 # print("result",datetime.now())
 
 # ##resolve mismatches-router

@@ -17,7 +17,7 @@ client = SarvamAI(
     api_subscription_key=API_KEY
 )
 
-def extract_worker_document(file_path: str,document_type:str):
+async def extract_worker_document(file_path: str,document_type:str):
 
     with open(file_path, "rb") as pdf:
 
@@ -68,5 +68,4 @@ def extract_worker_document(file_path: str,document_type:str):
     result = client.doc_ai.get_results(
         job_id=job.job_id
     )
-
     return result.result
