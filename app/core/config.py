@@ -16,6 +16,6 @@ SARVAM_API_KEY=os.getenv("SARVAM_API_KEY")
 SARVAM_MODEL=os.getenv("SARVAM_MODEL","sarvam-105b")
 
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
-EXPECTED_PDF_COUNT = 2
+EXPECTED_PDF_COUNT = 5
 
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)

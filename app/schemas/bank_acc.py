@@ -7,7 +7,7 @@ BANK_PASSBOOK_SCHEMA = {
         },
         "account_holder_name": {
             "type": "string",
-            "description": "Extract the account holder's full name exactly as printed."
+            "description": "Extract the account holder's full name exactly as printed,without if there is Mr. and Mrs."
         },
         "account_number": {
             "type": "string",

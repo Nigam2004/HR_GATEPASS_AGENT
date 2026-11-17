@@ -1,5 +1,9 @@
 from pydantic import BaseModel, Field
-
+from app.schemas.adhaar import AADHAAR_SCHEMA
+from app.schemas.bank_acc import BANK_PASSBOOK_SCHEMA
+from app.schemas.esic_ip import ESIC_SCHEMA
+from app.schemas.uan_pf import PF_UAN_SCHEMA
+from app.schemas.offer_letter import OFFER_LETTER_SCHEMA
 
 class WorkerDetails(BaseModel):
     document_type: str = Field(description="Type of document")
@@ -13,6 +17,21 @@ class WorkerDetails(BaseModel):
     identity_number_last4: str | None = None
     driving_licence_number: str | None = None
 
+DOCUMENT_KEYWORDS = {
+    "aadhaar": ["aadhaar", "aadhar", "uidai","adhar"],
+    "bank_passbook": ["bank", "passbook", "bank_statement"],
+    "esic": ["esic", "esi", "insurance"],
+    "pf_uan": ["uan", "pf", "epfo", "provident_fund"],
+    "offer_letter": ["offer_letter", "offer", "appointment_letter","off"],
+}
+
+DOCUMENT_ALL_SCHEMAS = {
+    "aadhaar": AADHAAR_SCHEMA,
+    "bank_passbook": BANK_PASSBOOK_SCHEMA,
+    "esic": ESIC_SCHEMA,
+    "pf_uan": PF_UAN_SCHEMA,
+    "offer_letter": OFFER_LETTER_SCHEMA,
+}
 
 WORKER_FIELDS = [
     "name",
@@ -20,10 +39,7 @@ WORKER_FIELDS = [
     "date_of_birth",
     "uan",
     "esic_number",
-    "bank_account_number",
-    "ifsc",
-    "identity_number_last4",
-    "driving_licence_number",
+    "adhaar_number",
 ]
 
 

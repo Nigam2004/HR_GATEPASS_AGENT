@@ -4,7 +4,7 @@ import json
 import time
 from dotenv import load_dotenv
 from sarvamai import SarvamAI
-from app.schemas.adhaar import AADHAAR_SCHEMA
+from app.schemas.worker import DOCUMENT_ALL_SCHEMAS
 
 load_dotenv()
 
@@ -17,7 +17,7 @@ client = SarvamAI(
     api_subscription_key=API_KEY
 )
 
-def extract_worker_document(file_path: str):
+def extract_worker_document(file_path: str,document_type:str):
 
     with open(file_path, "rb") as pdf:
 
@@ -29,7 +29,7 @@ def extract_worker_document(file_path: str):
                     "application/pdf"
                 )
             ],
-            schema=json.dumps(AADHAAR_SCHEMA),
+            schema=json.dumps(DOCUMENT_ALL_SCHEMAS[document_type]),
             output_format="json"
         )
 

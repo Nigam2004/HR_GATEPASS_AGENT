@@ -15,11 +15,11 @@ PF_UAN_SCHEMA = {
         },
         "date_of_joining": {
             "type": "string",
-            "description": "Extract the Date of Joining (DOJ) exactly as printed. Prefer DD/MM/YYYY format. For example, 12-Jun-2005 should be returned as 12/06/2005."
+            "description": "Extract the Date of Joining, Prefer DD/MM/YYYY format. For example, 12-Jun-2005 should be returned as 12/06/2005."
         },
         "name": {
             "type": "string",
-            "description": "Extract the employee's full name exactly as printed."
+            "description": "Extract the employee's full name exactly as printed without if there is Mr. and Mrs."
         },
         "gender": {
             "type": "string",

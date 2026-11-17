@@ -53,7 +53,7 @@ async def validate_documents(files:list[UploadFile] = File(...)):
         for upload in files:
             document = await save_pdf_and_extract_name(upload, thread_id)
             print("pdf extracted",datetime.now())
-            details = extract_worker_document(document["path"])
+            details = await extract_worker_document(document["path"],document["document_type"])
             print("ai doc extracted",datetime.now())
 
             record = {
@@ -93,8 +93,12 @@ async def validate_documents(files:list[UploadFile] = File(...)):
 
     result = agent.invoke(initial_state, config=_thread_config(thread_id))
     print("comparing the details",datetime.now())
-    return {"thread_id": thread_id, **_format_result(result)}
-print("result",datetime.now())
+    # {"thread_id": thread_id, **_format_result(result)}
+    return {
+    "records": records,
+    "documents": documents
+}
+# print("result",datetime.now())
 
 # ##resolve mismatches-router
 # @router.post("/resolve-mismatches/{thread_id}")
