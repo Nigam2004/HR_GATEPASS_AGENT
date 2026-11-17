@@ -179,4 +179,3 @@ GATEPASS_WORKER_SCHEMA = {
     },
     "required": []
 }
-
