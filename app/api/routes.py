@@ -7,7 +7,8 @@ from app.core.config import EXPECTED_PDF_COUNT
 from app.graph.workflow import agent
 from app.schemas.requests import CorrectionRequest, ProfileApproval
 from app.services.ai_extractor import extract_worker_details
-from app.services.pdf_service import save_pdf_and_extract_text
+from app.services.pdf_service import save_pdf_and_extract_name
+from app.services.sarvam_extracter import extract_worker_document
 from datetime import datetime
 
 router = APIRouter()
@@ -50,9 +51,9 @@ async def validate_documents(files:list[UploadFile] = File(...)):
 
     try:
         for upload in files:
-            document, text = await save_pdf_and_extract_text(upload, thread_id)
+            document = await save_pdf_and_extract_name(upload, thread_id)
             print("pdf extracted",datetime.now())
-            details = extract_worker_details(document["filename"],text)
+            details = extract_worker_document(document["path"])
             print("ai doc extracted",datetime.now())
 
             record = {

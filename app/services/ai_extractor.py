@@ -1,14 +1,7 @@
 from functools import lru_cache
-
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_sarvam import ChatSarvam
-
-from app.core.config import GOOGLE_API_KEY, GEMINI_MODEL,SARVAM_API_KEY,SARVAM_MODEL
+from app.core.config import GOOGLE_API_KEY, GEMINI_MODEL
 from app.schemas.worker import WorkerDetails 
-from sarvamai import SarvamAI
-
-
-# client = SarvamAI(api_subscription_key=SARVAM_API_KEY)
 @lru_cache(maxsize=1)
 def _get_structured_extractor():
     print("api key called")
@@ -23,11 +16,6 @@ def _get_structured_extractor():
         api_key=GOOGLE_API_KEY,
         temperature=0,
     )
-    # llm = ChatSarvam(
-    #         model="sarvam-vision",
-    #         api_key=SARVAM_API_KEY,
-    #         temperature=0,
-    #     )
     return llm.with_structured_output(WorkerDetails)
 
 
