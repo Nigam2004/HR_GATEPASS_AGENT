@@ -97,7 +97,7 @@ async def validate_documents(files:list[UploadFile] = File(...)):
     # print("rse",result)
     print("comparing the details",datetime.now())
     # {"thread_id": thread_id, **_format_result(result)}
-    return {"thread_id": thread_id, **_format_result(result),**result}
+    return {"thread_id": thread_id,**result}
 # print("result",datetime.now())
 
 # ##resolve mismatches-router
