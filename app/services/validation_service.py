@@ -22,11 +22,9 @@ DATE_FIELDS = {
 IDENTIFIER_PATTERNS = {
     
     "uan_number":  r"^\d{12}$",
-    "aadhaar_number":r"[^0-9 ]" ,
-    # r"^\d{12}$"
+    "aadhaar_number":r"^\d{12}$" ,
     # Confirm the expected ESIC number format before enforcing it.
     "esic_number": r"^\d{10,17}$",
-    # 
 }
 
 

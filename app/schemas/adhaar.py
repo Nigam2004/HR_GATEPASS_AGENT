@@ -7,7 +7,7 @@ AADHAAR_SCHEMA = {
         },
         "aadhaar_number": {
             "type": "string",
-            "description": "Extract the 12-digit Aadhaar number exactly as printed. Do not guess missing digits."
+            "description": "Extract the 12-digit Aadhaar number without spaces as printed. Do not guess missing digits."
         },
         "name": {
             "type": "string",

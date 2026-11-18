@@ -97,60 +97,60 @@ async def validate_documents(files:list[UploadFile] = File(...)):
     # print("rse",result)
     print("comparing the details",datetime.now())
     # {"thread_id": thread_id, **_format_result(result)}
-    return {"thread_id": thread_id,**result}
+    return {"thread_id": thread_id, **_format_result(result),**result}
 # print("result",datetime.now())
 
 # ##resolve mismatches-router
-# @router.post("/resolve-mismatches/{thread_id}")
-# def submit_corrections(thread_id: str, request: CorrectionRequest):
-#     try:
-#         result = agent.invoke(
-#             Command(resume=request.corrections),
-#             config=_thread_config(thread_id),
-#         )
-#     except Exception as exc:
-#         raise HTTPException(
-#             status_code=400,
-#             detail=(
-#                 "Could not apply corrections. Check the thread ID and "
-#                 "outstanding mismatch fields."
-#             ),
-#         ) from exc
+@router.post("/resolve-mismatches/{thread_id}")
+def submit_corrections(thread_id: str, request: CorrectionRequest):
+    try:
+        result = agent.invoke(
+            Command(resume=request.corrections),
+            config=_thread_config(thread_id),
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Could not apply corrections. Check the thread ID and "
+                "outstanding mismatch fields."
+            ),
+        ) from exc
 
-#     return {"thread_id": thread_id, **_format_result(result)}
+    return {"thread_id": thread_id, **result}
 
 
 
 # ##confirm router
-# @router.post("/confirm-profile/{thread_id}")
-# def approve_profile(thread_id: str, request: ProfileApproval):
-#     try:
-#         result = agent.invoke(
-#             Command(resume={"approved": request.approved}),
-#             config=_thread_config(thread_id),
-#         )
-#     except Exception as exc:
-#         raise HTTPException(
-#             status_code=400,
-#             detail=(
-#                 "Could not confirm profile. Check the thread ID and "
-#                 "pending workflow stage."
-#             ),
-#         ) from exc
+@router.post("/confirm-profile/{thread_id}")
+def approve_profile(thread_id: str, request: ProfileApproval):
+    try:
+        result = agent.invoke(
+            Command(resume={"approved": request.approved}),
+            config=_thread_config(thread_id),
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Could not confirm profile. Check the thread ID and "
+                "pending workflow stage."
+            ),
+        ) from exc
 
-#     return {"thread_id": thread_id, **_format_result(result)}
+    return {"thread_id": thread_id, **_format_result(result),**result}
 
 
 
 # ## get result router
-# @router.get("/status/{thread_id}")
-# def workflow_status(thread_id: str):
-#     snapshot = agent.get_state(_thread_config(thread_id))
-#     if not snapshot.values and not snapshot.next:
-#         raise HTTPException(status_code=404, detail="Workflow thread not found.")
+@router.get("/status/{thread_id}")
+def workflow_status(thread_id: str):
+    snapshot = agent.get_state(_thread_config(thread_id))
+    if not snapshot.values and not snapshot.next:
+        raise HTTPException(status_code=404, detail="Workflow thread not found.")
 
-#     return {
-#         "thread_id": thread_id,
-#         "values": snapshot.values,
-#         "next_steps": list(snapshot.next),
-#     }
+    return {
+        "thread_id": thread_id,
+        "values": snapshot.values,
+        "next_steps": list(snapshot.next),
+    }
