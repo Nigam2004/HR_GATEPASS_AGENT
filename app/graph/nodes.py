@@ -22,7 +22,8 @@ from app.services.mapping_service import (
 def compare_documents(state: AgentState) -> dict:
 
     result = compare_worker_documents(
-        state["extracted_details"]
+        extracted_details=state["extracted_details"],
+        corrections=state.get("corrections", {})
     )
 
     return {
@@ -36,27 +37,33 @@ def compare_documents(state: AgentState) -> dict:
 # 2. HR MISMATCH CORRECTION
 def resolve_mismatches(state: AgentState) -> dict:
 
-    # INTERRUPT 1: Pause and ask HR for corrections
+    # Pause and request HR corrections
     answers = interrupt({
         "type": "mismatch_review",
         "message": "Review mismatches and enter corrections.",
-        "mismatches": state["mismatches"],
-        "worker_profile": state["worker_profile"],
+        "mismatches": state.get("mismatches", []),
+        "worker_profile": state.get("worker_profile", {}),
     })
 
     if not isinstance(answers, dict):
         raise ValueError("Corrections must be a dictionary.")
 
+    # Preserve previous corrections
+    updated_corrections = {
+        **state.get("corrections", {}),
+        **answers,
+    }
+
+    # Apply only the newly submitted corrections
     result = apply_hr_corrections(
         worker_profile=state["worker_profile"],
         corrections=answers,
         mismatches=state["mismatches"],
-        # hr_user=state.get("authenticated_hr_user", "HR_USER"),
     )
 
     return {
         "worker_profile": result["worker_profile"],
-        "corrections": answers,
+        "corrections": updated_corrections,
         "correction_history": (
             state.get("correction_history", [])
             + result["correction_history"]
@@ -64,6 +71,7 @@ def resolve_mismatches(state: AgentState) -> dict:
         "corrections_applied": result["corrections_applied"],
         "workflow_status": "corrections_received",
     }
+
 
 
 # 3. PROFILE VALIDATION

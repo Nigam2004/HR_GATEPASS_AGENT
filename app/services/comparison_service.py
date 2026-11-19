@@ -99,11 +99,15 @@ def mask_identifier(value):
     return "*" * max(0, len(value) - 4) + value[-4:]
 
 
-def compare_worker_documents(extracted_details: list[dict]):
-
+def compare_worker_documents(
+    extracted_details: list[dict],
+    corrections: dict | None = None,
+):
     comparisons = []
     mismatches = []
     worker_profile = {}
+
+    corrections = corrections or {}
 
     for common_field, document_fields in FIELD_MAPPING.items():
 
@@ -124,8 +128,7 @@ def compare_worker_documents(extracted_details: list[dict]):
 
             if isinstance(value, (list, dict)):
                 raise ValueError(
-                    f"Invalid value for {common_field} "
-                    f"in {record.get('filename')}"
+                    f"Invalid value for {common_field}"
                 )
 
             value = str(value).strip()
@@ -138,33 +141,17 @@ def compare_worker_documents(extracted_details: list[dict]):
                     common_field, value
                 ),
             })
-        print("comparison=",values)
 
-        # First value is only a draft
-        worker_profile[common_field] = (
-            values[0]["value"] if values else None
-        )
+        # HR correction takes priority as the profile value,
+        # but does not alter the original extracted documents.
+        profile_value = corrections.get(common_field)
 
-        if len(values) < 2:
+        if profile_value is None:
+            profile_value = values[0]["value"] if values else None
 
-            comparisons.append({
-                "field": common_field,
-                "status": "insufficient_data",
-                "values": values,
-            })
+        worker_profile[common_field] = profile_value
 
-            continue
-
-        unique_values = {
-            item["normalized"] for item in values
-        }
-
-        if len(unique_values) == 1:
-            status = "matched"
-        else:
-            status = "mismatch"
-
-        # Hide sensitive identifiers in the returned result
+        # Build display values
         display_values = []
 
         for item in values:
@@ -178,6 +165,28 @@ def compare_worker_documents(extracted_details: list[dict]):
                 "document_type": item["document_type"],
                 "value": display_value,
             })
+
+        # Insufficient source evidence
+        if len(values) < 2:
+            comparisons.append({
+                "field": common_field,
+                "status": "insufficient_data",
+                "values": display_values,
+            })
+            continue
+
+        unique_values = {
+            item["normalized"] for item in values
+        }
+
+        if len(unique_values) == 1:
+            status = "matched"
+
+        elif common_field in corrections:
+            status = "hr_corrected"
+
+        else:
+            status = "mismatch"
 
         result = {
             "field": common_field,
@@ -194,7 +203,15 @@ def compare_worker_documents(extracted_details: list[dict]):
         "worker_profile": worker_profile,
         "comparisons": comparisons,
         "mismatches": mismatches,
-        # "summary": {
+        "workflow_status": "comparison_completed",
+    }
+
+
+# "worker_profile": profile,
+#         "mismatches": mismatches,
+#         "workflow_status": "comparison_completed",
+
+# "summary": {
         #     "total_fields": len(FIELD_MAPPING),
         #     "matched": sum(
         #         item["status"] == "matched"
@@ -210,9 +227,3 @@ def compare_worker_documents(extracted_details: list[dict]):
         #     item["status"] == "insufficient_data"
         #     for item in comparisons
         # ),
-        "workflow_status": "comparison_completed",
-    }
-
-# "worker_profile": profile,
-#         "mismatches": mismatches,
-#         "workflow_status": "comparison_completed",

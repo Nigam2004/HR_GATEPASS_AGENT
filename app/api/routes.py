@@ -11,6 +11,8 @@ from app.services.pdf_service import save_pdf_and_extract_name
 from app.services.sarvam_extracter import extract_worker_document
 from datetime import datetime
 
+import traceback
+
 router = APIRouter()
 
 
@@ -108,7 +110,10 @@ def submit_corrections(thread_id: str, request: CorrectionRequest):
             Command(resume=request.corrections),
             config=_thread_config(thread_id),
         )
+
     except Exception as exc:
+        print("ERROR:", repr(exc))
+        traceback.print_exc()
         raise HTTPException(
             status_code=400,
             detail=(
@@ -117,11 +122,11 @@ def submit_corrections(thread_id: str, request: CorrectionRequest):
             ),
         ) from exc
 
-    return {"thread_id": thread_id, **_format_result(result)}
+    return {"thread_id": thread_id, **_format_result(result),**result}
 
 
 
-# ##confirm router
+##confirm router
 @router.post("/confirm-profile/{thread_id}")
 def approve_profile(thread_id: str, request: ProfileApproval):
     try:
