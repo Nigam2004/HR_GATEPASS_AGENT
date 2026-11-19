@@ -138,6 +138,7 @@ def compare_worker_documents(extracted_details: list[dict]):
                     common_field, value
                 ),
             })
+        print("comparison=",values)
 
         # First value is only a draft
         worker_profile[common_field] = (

@@ -43,7 +43,7 @@ async def open_mantra_portal():
             if await captcha_image.count() > 0:
                 print("CAPTCHA image detected")
                 await captcha_image.screenshot(
-                path="uploads/captcha.png")
+                path="screenshots/captcha.png")
             else:
                 print("CAPTCHA image not found")
             await page.get_by_role("textbox", name="Captcha").click()

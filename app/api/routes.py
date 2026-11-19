@@ -117,7 +117,7 @@ def submit_corrections(thread_id: str, request: CorrectionRequest):
             ),
         ) from exc
 
-    return {"thread_id": thread_id, **result}
+    return {"thread_id": thread_id, **_format_result(result)}
 
 
 
