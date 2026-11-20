@@ -219,9 +219,9 @@ def review_validation_errors(state: AgentState) -> dict:
     if not isinstance(answers, dict):
         raise ValueError("HR corrections must be a dictionary.")
 
-    profile = dict(state["worker_profile"])
 
     for field, value in answers.items():
+        print(field, value)
         if field not in state["validation_result"]["missing_fields"] \
                 and field not in state["validation_result"]["invalid_fields"]:
             raise ValueError(f"{field} is not a validation error.")
@@ -229,6 +229,13 @@ def review_validation_errors(state: AgentState) -> dict:
         if not isinstance(value, str) or not value.strip():
             raise ValueError(f"Enter a valid value for {field}.")
 
+        history = list(state.get("correction_history", []))
+        
+        for item in history:
+            if item.get("field") ==field:
+                item["verification_status"] = "verified"
+
+        profile = dict(state["worker_profile"])
         profile[field] = value.strip()
 
     return {

@@ -9,3 +9,9 @@ class CorrectionRequest(BaseModel):
 
 class ProfileApproval(BaseModel):
     approved: bool
+
+class ValidationRequest(BaseModel):
+    verified_fields: dict[str, str] = Field(
+        ...,
+        description="Fields verified by HR"
+    )

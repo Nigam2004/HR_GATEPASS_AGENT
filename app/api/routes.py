@@ -5,7 +5,7 @@ from langgraph.types import Command
 from pydantic import BaseModel
 from app.core.config import EXPECTED_PDF_COUNT
 from app.graph.workflow import agent
-from app.schemas.requests import CorrectionRequest, ProfileApproval
+from app.schemas.requests import CorrectionRequest, ProfileApproval,ValidationRequest
 from app.services.ai_extractor import extract_worker_details
 from app.services.pdf_service import save_pdf_and_extract_name
 from app.services.sarvam_extracter import extract_worker_document
@@ -124,7 +124,27 @@ def submit_corrections(thread_id: str, request: CorrectionRequest):
 
     return {"thread_id": thread_id, **_format_result(result),**result}
 
+#validatio review
+@router.post("/validation-review/{thread_id}")
+def approve_profile(thread_id: str, request: ValidationRequest):
+    print(request.verified_fields)
+    try:
+        result = agent.invoke(
+            Command(resume={"verified_fields": request.verified_fields}),
+            config=_thread_config(thread_id),
+        )
+        return {"thread_id": thread_id, **_format_result(result),**result}
+    except Exception as exc:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Could not process validation review."
+            ),
+        ) from exc
 
+    # return {"thread_id": thread_id, **_format_result(result),**result}
 
 ##confirm router
 @router.post("/confirm-profile/{thread_id}")
@@ -144,7 +164,6 @@ def approve_profile(thread_id: str, request: ProfileApproval):
         ) from exc
 
     return {"thread_id": thread_id, **_format_result(result),**result}
-
 
 
 # ## get result router
