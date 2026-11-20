@@ -12,6 +12,5 @@ class ProfileApproval(BaseModel):
 
 class ValidationRequest(BaseModel):
     verified_fields: dict[str, str] = Field(
-        ...,
         description="Fields verified by HR"
     )

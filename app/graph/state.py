@@ -25,6 +25,7 @@ class AgentState(TypedDict, total=False):
     # 5. Profile validation
     validation_result: dict
     validation_errors: list[str]
+    verified_corrections:list[str]
     is_valid: bool
 
     # 6. HR profile approval

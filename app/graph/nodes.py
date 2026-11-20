@@ -215,31 +215,36 @@ def review_validation_errors(state: AgentState) -> dict:
         "validation_errors": state["validation_errors"],
         "worker_profile": state["worker_profile"],
     })
-
+       # Temporary diagnostic
+    if "verified_fields" in answers:
+        answers = answers["verified_fields"]
     if not isinstance(answers, dict):
         raise ValueError("HR corrections must be a dictionary.")
 
-
+    history = list(state.get("correction_history", []))
+    profile = dict(state["worker_profile"])
+    verified_corrections = set(
+        state.get("verified_corrections", [])
+    )
     for field, value in answers.items():
-        print(field, value)
-        if field not in state["validation_result"]["missing_fields"] \
-                and field not in state["validation_result"]["invalid_fields"]:
+        verified_corrections.add(field)
+        if (
+            field not in state["validation_result"]["missing_fields"]
+            and field not in state["validation_result"]["invalid_fields"]
+            and field not in state["validation_result"]["unverified_corrections"]
+        ):
             raise ValueError(f"{field} is not a validation error.")
 
         if not isinstance(value, str) or not value.strip():
             raise ValueError(f"Enter a valid value for {field}.")
 
-        history = list(state.get("correction_history", []))
-        
         for item in history:
-            if item.get("field") ==field:
-                item["verification_status"] = "verified"
-
-        profile = dict(state["worker_profile"])
+            if item.get("field") == field:
+                item["verification_status"] = "verified" 
         profile[field] = value.strip()
-
+       
     return {
         "worker_profile": profile,
         "workflow_status": "validation_corrections_received",
+        "verified_corrections":list(verified_corrections)
     }
-

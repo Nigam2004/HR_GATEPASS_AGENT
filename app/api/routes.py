@@ -128,9 +128,10 @@ def submit_corrections(thread_id: str, request: CorrectionRequest):
 @router.post("/validation-review/{thread_id}")
 def approve_profile(thread_id: str, request: ValidationRequest):
     print(request.verified_fields)
+    print(type(request.verified_fields))
     try:
         result = agent.invoke(
-            Command(resume={"verified_fields": request.verified_fields}),
+            Command(resume=request.verified_fields),
             config=_thread_config(thread_id),
         )
         return {"thread_id": thread_id, **_format_result(result),**result}
