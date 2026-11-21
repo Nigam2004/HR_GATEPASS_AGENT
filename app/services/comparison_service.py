@@ -1,112 +1,6 @@
 import re
 from datetime import datetime
-
-
-# Common fields and their document-specific field names
-FIELD_MAPPING = {
-    "name": {
-        "PF/UAN": "name",
-        "Aadhaar": "name",
-        "Bank Passbook": "account_holder_name",
-        "ESIC": "name_of_ip",
-        "Offer Letter": "name_of_employee",
-    },
-
-    "father_name": {
-        "PF/UAN": "father_or_husband_name",
-        "Aadhaar": "father_name",
-        "ESIC": "father_or_husband_name",
-        "Offer Letter": "father_name",
-    },
-
-    "date_of_birth": {
-        "Aadhaar": "date_of_birth",
-        "ESIC": "date_of_birth",
-        "Offer Letter": "date_of_birth",
-    },
-
-    "date_of_joining": {
-        "PF/UAN": "date_of_joining",
-        "ESIC": "date_of_appointment",
-        "Offer Letter": "date_of_joining",
-    },
-
-    "uan_number": {
-        "PF/UAN": "uan_number",
-        "Offer Letter": "uan_number",
-    },
-
-    "esic_number": {
-        "ESIC": "insurance_number",
-        "Offer Letter": "esic_number",
-    },
-
-    "aadhaar_number": {
-        "Aadhaar": "aadhaar_number",
-        "Offer Letter": "aadhaar_number",
-    },
-     "mobile_number": {
-        "ESIC": "mobile_number",
-    },
-
-    "gender": {
-        "PF/UAN": "gender",
-    },
-
-    "marital_status": {
-        "ESIC": "Marital_Status"
-    },
-
-    "name_of_employer": {
-        "ESIC": "name_of_employer",
-    },
-
-    "designation": {
-        "Offer Letter": "designation",
-    },
-
-    "skill_category": {
-        "Offer Letter": "skill_category",
-    },
-
-    "member_id": {
-        "PF/UAN": "member_id",
-    },
-
-    "bank_name": {
-        "Bank Passbook": "bank_name",
-    },
-
-    "account_number": {
-        "Bank Passbook": "account_number",
-    },
-
-    "ifsc_code": {
-        "Bank Passbook": "ifsc_code",
-    },
-
-    "name_of_nominee": {
-        "ESIC": "name_of_nominee",
-    },
-
-    "relation_with_ip": {
-        "ESIC": "relation_with_ip",
-    },
-
-    "fixed_gross": {
-        "Offer Letter": "fixed_gross",
-    },
-
-    "present_address": {
-        "ESIC": "present_address",
-    },
-
-    "permanent_address": {
-        "ESIC": "permanent_address",
-    },
-}
-
-
+from app.schemas.worker import MAPPED_MANTRA_FIELDS
 DATE_FIELDS = {
     "date_of_birth",
     "date_of_joining",
@@ -168,7 +62,7 @@ def compare_worker_documents(
 
     corrections = corrections or {}
 
-    for common_field, document_fields in FIELD_MAPPING.items():
+    for common_field, document_fields in MAPPED_MANTRA_FIELDS.items():
 
         values = []
 
