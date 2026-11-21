@@ -48,6 +48,10 @@ ESIC_SCHEMA = {
         "relation_with_ip": {
             "type": "string",
             "description": "Extract the nominee's relationship with the Insured Person (IP)."
+        },
+        "Marital_Status":{
+            "type": "string",
+            "description": "Extract the Marital Status as Married if unmarried then use single of the Insured Person (IP)."
         }
     },
     "required": [
@@ -62,6 +66,7 @@ ESIC_SCHEMA = {
         "permanent_address",
         "date_of_appointment",
         "name_of_nominee",
-        "relation_with_ip"
+        "relation_with_ip",
+        "Marital_Status"
     ]
 }

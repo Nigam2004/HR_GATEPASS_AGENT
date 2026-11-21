@@ -1,17 +1,18 @@
 
 from typing import Any
+from app.schemas.worker import MANTRA_FIELD_MAPPING
 
 
 # Common worker profile fields → Mantra portal field names
-MANTRA_FIELD_MAPPING = {
-    "name": "employee_name",
-    "father_name": "father_or_husband_name",
-    "date_of_birth": "dob",
-    "date_of_joining": "joining_date",
-    "uan_number": "uan",
-    "esic_number": "esic_ip_number",
-    "aadhaar_number": "aadhaar",
-}
+# MANTRA_FIELD_MAPPING = {
+#     "name": "employee_name",
+#     "father_name": "father_or_husband_name",
+#     "date_of_birth": "dob",
+#     "date_of_joining": "joining_date",
+#     "uan_number": "uan",
+#     "esic_number": "esic_ip_number",
+#     "aadhaar_number": "aadhaar",
+# }
 
 
 def map_worker_profile(worker_profile: dict) -> dict:

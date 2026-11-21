@@ -45,6 +45,65 @@ FIELD_MAPPING = {
         "Aadhaar": "aadhaar_number",
         "Offer Letter": "aadhaar_number",
     },
+     "mobile_number": {
+        "ESIC": "mobile_number",
+    },
+
+    "gender": {
+        "PF/UAN": "gender",
+    },
+
+    "marital_status": {
+        "ESIC": "Marital_Status"
+    },
+
+    "name_of_employer": {
+        "ESIC": "name_of_employer",
+    },
+
+    "designation": {
+        "Offer Letter": "designation",
+    },
+
+    "skill_category": {
+        "Offer Letter": "skill_category",
+    },
+
+    "member_id": {
+        "PF/UAN": "member_id",
+    },
+
+    "bank_name": {
+        "Bank Passbook": "bank_name",
+    },
+
+    "account_number": {
+        "Bank Passbook": "account_number",
+    },
+
+    "ifsc_code": {
+        "Bank Passbook": "ifsc_code",
+    },
+
+    "name_of_nominee": {
+        "ESIC": "name_of_nominee",
+    },
+
+    "relation_with_ip": {
+        "ESIC": "relation_with_ip",
+    },
+
+    "fixed_gross": {
+        "Offer Letter": "fixed_gross",
+    },
+
+    "present_address": {
+        "ESIC": "present_address",
+    },
+
+    "permanent_address": {
+        "ESIC": "permanent_address",
+    },
 }
 
 
