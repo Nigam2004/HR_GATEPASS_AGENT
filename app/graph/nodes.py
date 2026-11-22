@@ -16,7 +16,7 @@ from app.services.validation_service import (
 from app.services.mapping_service import (
     map_worker_profile,
 )
-from app.services.portal_services import(open_mantra_portal)
+from app.services.portal_services import(open_mantra_portal,fill_captcha_text,click_mantra_login)
 
 
 # 1. DOCUMENT COMPARISON
@@ -153,7 +153,7 @@ def confirm_profile(state: AgentState) -> dict:
         "worker_profile": state["worker_profile"],
         "validation_result": state["validation_result"],
     })
-
+    print(decision)
     approved = (
         isinstance(decision, dict)
         and decision.get("approved") is True
@@ -178,11 +178,49 @@ def map_profile(state: AgentState) -> dict:
     mapped_data = map_worker_profile(
         state["worker_profile"]
     )
-
+    print(mapped_data)
     return {
         "mapped_data": mapped_data,
         "workflow_status": "mapping_completed",
+        "portal_status":"started"
     }
+
+##playwrite login
+async def mantra_login_portal(state: AgentState) -> dict:
+
+    if not state.get("mapped_data"):
+        raise ValueError("data not mapped yet")
+
+    result = await open_mantra_portal()
+
+    # Update AgentState
+    return {
+        "captcha_images": result["captcha_images"]
+    }
+
+async def fill_captcha(state: AgentState) -> dict:
+
+    # Pause workflow and ask HR for CAPTCHA
+    captcha_text = interrupt({
+        "action": "ENTER_CAPTCHA",
+        "captcha_images": state.get("captcha_images"),
+        "message": "Please enter the CAPTCHA displayed in the image."
+    })
+
+    # Resume after HR submits CAPTCHA
+    await fill_captcha_text(captcha_text)
+
+    return {
+        "captcha_filled": True
+    }
+async def click_login(state: AgentState) -> dict:
+
+    await click_mantra_login()
+
+    return {
+        "login_clicked": True
+    }
+
 
 
 # 6. PLAYWRIGHT: FILL MANTRA PORTAL

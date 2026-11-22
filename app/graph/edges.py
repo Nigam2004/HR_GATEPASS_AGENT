@@ -25,6 +25,15 @@ def after_confirmation(state: AgentState) -> str:
         else "end"
     )
 
+def check_captcha(state: AgentState) -> str:
+
+    return (
+        "fill_captcha"
+        if state.get("captcha_images")
+        else "click_login"
+    )
+
+
 
 def after_final_approval(state: AgentState) -> str:
     return (

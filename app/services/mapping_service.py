@@ -42,4 +42,4 @@ def map_worker_profile(worker_profile: dict) -> dict:
             f"Missing required worker fields: {missing_fields}"
         )
 
-    return mapped_data
+    return  mapped_data

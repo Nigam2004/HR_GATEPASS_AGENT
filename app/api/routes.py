@@ -5,7 +5,7 @@ from langgraph.types import Command
 from pydantic import BaseModel
 from app.core.config import EXPECTED_PDF_COUNT
 from app.graph.workflow import agent
-from app.schemas.requests import CorrectionRequest, ProfileApproval,ValidationRequest
+from app.schemas.requests import CorrectionRequest, ProfileApproval,ValidationRequest,CaptchaRequest
 from app.services.ai_extractor import extract_worker_details
 from app.services.pdf_service import save_pdf_and_extract_name
 from app.services.sarvam_extracter import extract_worker_document
@@ -134,10 +134,7 @@ def approve_profile(thread_id: str, request: ValidationRequest):
             Command(resume=request.verified_fields),
             config=_thread_config(thread_id),
         )
-        return {"thread_id": thread_id, **_format_result(result),**result}
     except Exception as exc:
-        import traceback
-        traceback.print_exc()
         raise HTTPException(
             status_code=400,
             detail=(
@@ -145,17 +142,20 @@ def approve_profile(thread_id: str, request: ValidationRequest):
             ),
         ) from exc
 
-    # return {"thread_id": thread_id, **_format_result(result),**result}
+    return {"thread_id": thread_id, **_format_result(result),**result}
 
 ##confirm router
 @router.post("/confirm-profile/{thread_id}")
-def approve_profile(thread_id: str, request: ProfileApproval):
+async def approve_profile(thread_id: str, request: ProfileApproval):
+    print(request)
     try:
-        result = agent.invoke(
+        result =agent.invoke(
             Command(resume={"approved": request.approved}),
             config=_thread_config(thread_id),
         )
     except Exception as exc:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(
             status_code=400,
             detail=(
@@ -165,6 +165,26 @@ def approve_profile(thread_id: str, request: ProfileApproval):
         ) from exc
 
     return {"thread_id": thread_id, **_format_result(result),**result}
+
+@router.post("/mantra/{thread_id}/captcha")
+def approve_profile(thread_id: str, request: CaptchaRequest):
+    print(request.captcha_text)
+    print(type(request.captcha_text))
+    try:
+        result = agent.ainvoke(
+            Command(resume=request.captcha_text),
+            config=_thread_config(thread_id),
+        )
+    except Exception as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Could not process validation review."
+            ),
+        ) from exc
+
+    return {"message": "CAPTCHA submitted successfully", 
+            **_format_result(result),**result}
 
 
 # ## get result router

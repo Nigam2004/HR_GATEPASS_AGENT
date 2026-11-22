@@ -14,3 +14,5 @@ class ValidationRequest(BaseModel):
     verified_fields: dict[str, str] = Field(
         description="Fields verified by HR"
     )
+class CaptchaRequest(BaseModel):
+    captcha_text: str
