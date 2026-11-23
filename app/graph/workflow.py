@@ -1,6 +1,5 @@
 
 from langgraph.graph import END, START, StateGraph
-from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 from app.core.database import get_checkpointer
 from app.graph.state import AgentState
 
@@ -39,9 +38,9 @@ def build_agent():
     builder.add_node("validation_review", review_validation_errors)
     builder.add_node("confirm", confirm_profile)
     builder.add_node("mapping", map_profile)
-    builder.add_node("mantra_login_portal",mantra_login_portal )
-    builder.add_node("fill_captcha",fill_captcha )
-    builder.add_node( "click_login",click_login)
+    # builder.add_node("mantra_login_portal",mantra_login_portal )
+    # builder.add_node("fill_captcha",fill_captcha )
+    # builder.add_node( "click_login",click_login)
     builder.add_node("fill_portal", fill_portal)
     builder.add_node("final_approval", final_submission_approval)
     builder.add_node("submit", submit_gatepass)
@@ -84,18 +83,18 @@ def build_agent():
             "end": END,
         },
     )
-
-    # Mapping and portal filling
-    builder.add_edge("mapping", "mantra_login_portal")
-    builder.add_conditional_edges(
-    "mantra_login_portal",
-    check_captcha,
-    {
-        "fill_captcha": "fill_captcha",
-        "click_login": "click_login"
-    }
-)
-    builder.add_edge("fill_captcha", "click_login")
+    # builder.add_edge("confirm", "mapping")
+#     # Mapping and portal filling
+#     builder.add_edge("mapping", "mantra_login_portal")
+#     builder.add_conditional_edges(
+#     "mantra_login_portal",
+#     check_captcha,
+#     {
+#         "fill_captcha": "fill_captcha",
+#         "click_login": "click_login"
+#     }
+# )
+#     builder.add_edge("fill_captcha", "click_login")
     builder.add_edge("fill_portal", "final_approval")
 
     # Final submission approval
@@ -117,3 +116,5 @@ def build_agent():
 
 
 agent = build_agent()
+
+

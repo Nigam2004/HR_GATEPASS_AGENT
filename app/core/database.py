@@ -17,19 +17,34 @@ def get_checkpointer() -> SqliteSaver:
     checkpointer.setup()
     return checkpointer
 
+# from collections.abc import AsyncIterator
+# from contextlib import asynccontextmanager
 
-from contextlib import asynccontextmanager
+# from fastapi import FastAPI
+# from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
-from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
-from app.core.config import DATABASE_PATH
+# from app.core.config import DATABASE_PATH
+
+# _checkpointer: AsyncSqliteSaver | None = None
 
 
 # @asynccontextmanager
-# async def get_checkpointer():
-#     """Keep the async SQLite checkpointer open while FastAPI is running."""
+# async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+#     """Create and manage one async SQLite checkpointer for the app lifetime."""
+#     global _checkpointer
+#     async with AsyncSqliteSaver.from_conn_string(str(DATABASE_PATH)) as saver:
+#         await saver.setup()
+#         _checkpointer = saver
+#         try:
+#             yield
+#         finally:
+#             _checkpointer = None
 
-#     async with AsyncSqliteSaver.from_conn_string(
-#         str(DATABASE_PATH)
-#     ) as checkpointer:
-#         await checkpointer.setup()
-#         yield checkpointer
+
+# def get_checkpointer() -> AsyncSqliteSaver:
+#     """Return the active async SQLite checkpointer."""
+#     if _checkpointer is None:
+#         raise RuntimeError(
+#             "Async checkpointer is not initialized. Attach `lifespan` to FastAPI."
+#         )
+#     return _checkpointer

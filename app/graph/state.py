@@ -36,7 +36,9 @@ class AgentState(TypedDict, total=False):
     mapped_data: dict
 
     # 8. Playwright automation
-    captcha_images:list[dict]
+    captcha_images: list[str]
+    captcha_filled: bool
+    login_clicked: bool
     portal_status: str
     portal_filled: bool
     portal_screenshot: Optional[str]

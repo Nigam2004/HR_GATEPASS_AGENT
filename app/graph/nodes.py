@@ -1,4 +1,4 @@
-
+from langchain_core.runnables import RunnableConfig
 from langgraph.types import interrupt
 from app.graph.state import AgentState
 from app.services.comparison_service import (
@@ -186,17 +186,21 @@ def map_profile(state: AgentState) -> dict:
     }
 
 ##playwrite login
-async def mantra_login_portal(state: AgentState) -> dict:
+async def mantra_login_portal(state: AgentState,config: RunnableConfig) -> dict:
 
     if not state.get("mapped_data"):
         raise ValueError("data not mapped yet")
-
-    result = await open_mantra_portal()
+    thread_id = config.get("configurable", {}).get("thread_id", "default")
+    result = await open_mantra_portal(thread_id)
 
     # Update AgentState
     return {
-        "captcha_images": result["captcha_images"]
+        "captcha_images": result["captcha_images"],
+        "portal_status": (
+            "captcha_required" if result["captcha_required"] else "ready_to_login"
+        ),
     }
+
 
 async def fill_captcha(state: AgentState) -> dict:
 
