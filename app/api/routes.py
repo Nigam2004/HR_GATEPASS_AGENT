@@ -5,7 +5,7 @@ from langgraph.types import Command
 from pydantic import BaseModel
 from app.core.config import EXPECTED_PDF_COUNT
 from app.graph.workflow import agent
-from app.schemas.requests import CorrectionRequest, ProfileApproval,ValidationRequest,CaptchaRequest
+from app.schemas.requests import CorrectionRequest,ProfileApproval,ValidationRequest,CaptchaRequest
 from app.services.ai_extractor import extract_worker_details
 from app.services.pdf_service import save_pdf_and_extract_name
 from app.services.sarvam_extracter import extract_worker_document
@@ -35,7 +35,7 @@ def _format_result(result: dict) -> dict:
         "portal_status": result.get("portal_status"),
     }
 
-# list[UploadFile]
+#list[UploadFile]
 
 ##upload documents- Router
 @router.post("/validate-documents")
@@ -46,7 +46,6 @@ async def validate_documents(files:list[UploadFile] = File(...)):
             status_code=400,
             detail=f"Upload exactly {EXPECTED_PDF_COUNT} PDF files.",
         )
-
     thread_id = str(uuid.uuid4())
     documents = []
     records = []
@@ -159,7 +158,7 @@ async def approve_profile(thread_id: str, request: ProfileApproval):
         raise HTTPException(
             status_code=400,
             detail=(
-                "Could not confirm profile. Check the thread ID and "
+                "Could not confirm profile. Check the thread ID and"
                 "pending workflow stage."
             ),
         ) from exc

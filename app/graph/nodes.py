@@ -16,7 +16,6 @@ from app.services.validation_service import (
 from app.services.mapping_service import (
     map_worker_profile,
 )
-from app.services.portal_services import(open_mantra_portal,fill_captcha_text,click_mantra_login)
 
 
 # 1. DOCUMENT COMPARISON
@@ -185,110 +184,11 @@ def map_profile(state: AgentState) -> dict:
         "portal_status":"started"
     }
 
-##playwrite login
-async def mantra_login_portal(state: AgentState,config: RunnableConfig) -> dict:
-
-    if not state.get("mapped_data"):
-        raise ValueError("data not mapped yet")
-    thread_id = config.get("configurable", {}).get("thread_id", "default")
-    result = await open_mantra_portal(thread_id)
-
-    # Update AgentState
-    return {
-        "captcha_images": result["captcha_images"],
-        "portal_status": (
-            "captcha_required" if result["captcha_required"] else "ready_to_login"
-        ),
-    }
-
-
-async def fill_captcha(state: AgentState) -> dict:
-
-    # Pause workflow and ask HR for CAPTCHA
-    captcha_text = interrupt({
-        "action": "ENTER_CAPTCHA",
-        "captcha_images": state.get("captcha_images"),
-        "message": "Please enter the CAPTCHA displayed in the image."
-    })
-
-    # Resume after HR submits CAPTCHA
-    await fill_captcha_text(captcha_text)
-
-    return {
-        "captcha_filled": True
-    }
-async def click_login(state: AgentState) -> dict:
-
-    await click_mantra_login()
-
-    return {
-        "login_clicked": True
-    }
 
 
 
-# 6. PLAYWRIGHT: FILL MANTRA PORTAL
-def fill_portal(state: AgentState) -> dict:
-
-    if state.get("profile_confirmed") is not True:
-        raise ValueError("Profile approval is required.")
-
-    if not state.get("mapped_data"):
-        raise ValueError("Mapped data is missing.")
-
-    # Connect Playwright here.
-    # Fill form and upload documents.
-    # Do not submit the form here.
-
-    return {
-        "portal_filled": True,
-        "portal_status": "form_filled_waiting_for_approval",
-        "workflow_status": "waiting_for_final_approval",
-    }
 
 
-# 7. FINAL SUBMISSION APPROVAL
-def final_submission_approval(state: AgentState) -> dict:
-
-    if state.get("portal_filled") is not True:
-        raise ValueError("Portal form has not been filled.")
-
-    # INTERRUPT 3: Pause before final submission
-    decision = interrupt({
-        "type": "final_submission_approval",
-        "message": "Review the completed Mantra form and approve submission.",
-        "portal_screenshot": state.get("portal_screenshot"),
-        "mapped_data": state["mapped_data"],
-    })
-
-    approved = (
-        isinstance(decision, dict)
-        and decision.get("approved") is True
-    )
-
-    return {
-        "final_approval": approved,
-        "workflow_status": (
-            "ready_to_submit"
-            if approved
-            else "submission_rejected"
-        ),
-    }
-
-
-# 8. SUBMIT GATE PASS
-def submit_gatepass(state: AgentState) -> dict:
-
-    if state.get("final_approval") is not True:
-        raise ValueError("Final HR approval is required.")
-
-    # Connect the actual Playwright submit action here.
-    # Save the result and reference number after submission.
-
-    return {
-        "workflow_status": "submission_completed",
-        "portal_status": "submitted",
-    }
 
 
 

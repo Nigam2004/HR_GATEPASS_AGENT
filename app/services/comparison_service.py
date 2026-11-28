@@ -159,11 +159,6 @@ def compare_worker_documents(
         "workflow_status": "comparison_completed",
     }
 
-
-# "worker_profile": profile,
-#         "mismatches": mismatches,
-#         "workflow_status": "comparison_completed",
-
 # "summary": {
         #     "total_fields": len(FIELD_MAPPING),
         #     "matched": sum(
